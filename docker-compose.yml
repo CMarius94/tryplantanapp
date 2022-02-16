@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web:
+    image: public.ecr.aws/n0h9y3l0/tryplantanapp:${pa_version}
+    restart: always
+    depends_on:
+      - mssql
+    volumes:
+      - "${site_folder_path}:C:/inetpub/wwwroot/"
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      connection_string: ${base_connection}${sa_password}
+  mssql:
+    image: public.ecr.aws/n0h9y3l0/tryplantanapp-sql2017:${pa_version}
+    volumes:
+      - "${db_folder_path}:C:/dbFiles/"
+    ports:
+      - '1433:1433'
+    environment:
+      ACCEPT_EULA: 'Y'
+      sa_password: ${sa_password}
+      attach_dbs: ${attach_dbs}
