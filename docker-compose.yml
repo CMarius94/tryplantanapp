@@ -2,7 +2,7 @@ version: '3'
 
 services:
   web:
-    image: public.ecr.aws/n0h9y3l0/tryplantanapp:${pa_version}
+    image: public.ecr.aws/n0h9y3l0/tryplantanapp:win${windows_version}-${pa_version}
     restart: always
     depends_on:
       - mssql
@@ -14,7 +14,7 @@ services:
     environment:
       connection_string: ${base_connection}${sa_password}
   mssql:
-    image: public.ecr.aws/n0h9y3l0/tryplantanapp-sql2017:${pa_version}
+    image: public.ecr.aws/n0h9y3l0/tryplantanapp-sql2017:win${windows_version}-${pa_version}
     volumes:
       - "${db_folder_path}:C:/dbFiles/"
     ports:

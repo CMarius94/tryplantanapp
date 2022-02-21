@@ -34,6 +34,14 @@ $ErrorActionPreference = 'Stop'
 $siteDir = "$PSScriptRoot\wwwroot\"
 $dbDir = "$PSScriptRoot\db\"
 
+function EnsureDockerCompose() {
+    if ($null -eq (Get-Command "docker-compose" -ErrorAction SilentlyContinue)) { 
+        $url = "https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-windows-x86_64.exe";
+        Write-Output "Unable to find docker-compose.exe in your PATH. Downloading docker-compose from [$url]"
+        Invoke-WebRequest -UseBasicParsing -Outfile $Env:ProgramFiles\docker\docker-compose.exe $url
+    }
+}
+
 function StartApp() {
     $alreadyInstalled = $false
     if (-not (Test-Path $siteDir)) {
@@ -68,6 +76,8 @@ function PermanentlyRemoveApp() {
         Remove-Item $dbDir -Recurse -Force
     }
 }
+
+EnsureDockerCompose
 
 if ($Start) {
     StartApp
