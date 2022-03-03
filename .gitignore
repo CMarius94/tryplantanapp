@@ -1,0 +1,6 @@
+/db
+/db/*
+/db/**
+/wwwroot
+/wwwroot/*
+/wwwroot/**
