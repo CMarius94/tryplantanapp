@@ -14,6 +14,8 @@ services:
       - '443:443'
     environment:
       connection_string: ${base_connection}${sa_password}
+    networks:
+      - appnet
   mssql:
     image: public.ecr.aws/n0h9y3l0/tryplantanapp-sql2017:win${windows_version}-${pa_version}
     isolation: 'process'
@@ -25,3 +27,8 @@ services:
       ACCEPT_EULA: 'Y'
       sa_password: ${sa_password}
       attach_dbs: ${attach_dbs}
+    networks:
+      - appnet
+networks:
+  appnet:
+    name: nat
