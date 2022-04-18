@@ -15,24 +15,26 @@
 
 ## Deploying App only (using your own SQL Server)
 1. Open the **.env** file and change the **sa_password** and **base_connection** variables to correspond to your SQL Login.
-2. Open the **docker-compose.yml** file and:
-	a. delete or comment the entire **mssql** service:
-		```
-		  mssql:
-		    image: public.ecr.aws/n0h9y3l0/tryplantanapp-sql2017:win${windows_version}-${pa_version}
-		    isolation: 'process'
-		    volumes:
-		      - "${db_folder_path}:C:/dbFiles/"
-		    ports:
-		      - '1433:1433'
-		    environment:
-		      ACCEPT_EULA: 'Y'
-		      sa_password: ${sa_password}
-		      attach_dbs: ${attach_dbs}
+2. Open the **docker-compose.yml** file and: 
 
-		```
-	b. in the 'web' service delete or comment the lines:
-		```
+	a. delete or comment the entire **mssql** service:
+	```
+	  mssql:
+	    image: public.ecr.aws/n0h9y3l0/tryplantanapp-sql2017:win${windows_version}-${pa_version}
+	    isolation: 'process'
+	    volumes:
+	      - "${db_folder_path}:C:/dbFiles/"
+	    ports:
+	      - '1433:1433'
+	    environment:
+	      ACCEPT_EULA: 'Y'
+	      sa_password: ${sa_password}
+	      attach_dbs: ${attach_dbs}
+	    networks:
+	      - appnet
+	```
+	b. in the 'web' service delete or comment the lines: 	
+	```
 	    depends_on:
-      		- mssql
-		``` 
+	      - mssql
+	``` 
