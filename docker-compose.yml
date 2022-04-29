@@ -10,10 +10,11 @@ services:
     volumes:
       - "${site_folder_path}:C:/inetpub/wwwroot/"
     ports:
-      - '80:80'
+      - '${iis_port}:${iis_port}'
       - '443:443'
     environment:
       connection_string: ${base_connection}${sa_password}
+      iis_port: ${iis_port}
     networks:
       - appnet
   mssql:
