@@ -9,6 +9,9 @@ Stops the docker containers.
 .PARAMETER Reset
 Removes the docker containers and the folders of the app, then starts again fresh. Use with caution!
  
+.PARAMETER Restart
+Stops and starts the docker containers. It does NOT delete any data.
+ 
 .PARAMETER PermanentlyRemove 
 Removes the docker containers and the folders of the app. Use with caution!
 
@@ -27,6 +30,7 @@ Param (
     [Parameter(Mandatory=$false)][switch]$Start = $false,
     [Parameter(Mandatory=$false)][switch]$Stop = $false,
     [Parameter(Mandatory=$false)][switch]$Reset = $false,
+    [Parameter(Mandatory=$false)][switch]$Restart = $false,
     [Parameter(Mandatory=$false)][switch]$PermanentlyRemove = $false
 )
 
@@ -97,6 +101,12 @@ if($Reset) {
     StartApp
 }
 
-if ((-not $Reset) -and (-not $Start) -and (-not $Stop) -and (-not $PermanentlyRemove)) {
+if($Restart) {
+    StopApp
+    Start-Sleep 1
+    StartApp
+}
+
+if ((-not $Restart) -and (-not $Reset) -and (-not $Start) -and (-not $Stop) -and (-not $PermanentlyRemove)) {
     Get-Help $PSCommandPath -Full
 }
